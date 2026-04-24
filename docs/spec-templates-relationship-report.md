@@ -4,37 +4,28 @@
 
 ## 一句话结论
 
-本地其实有两层体系：
-- `docs/templates/` 是**规范化正式模板层**，按说明文档类型拆分。
-- `tasks/SPEC-TEMPLATE*.md` 是**历史/执行导向模板层**，按任务形态拆分。
+当前对外公开、建议直接使用的，只有 `docs/templates/` 这套正式模板层。
 
-前者更像“标准件”，后者更像“开工模板”。它们不是互相冲突，而是前者逐步取代后者、把说明文档从“任务单”升级成“治理对象”。
+旧的 `tasks/SPEC-TEMPLATE*.md` 只属于历史背景，不再作为当前公开仓库的推荐入口；如果你只是要选模板，直接看 `docs/templates/` 就够了。
 
 ---
 
-## 一、整体关系图
+## 一、当前应该怎么看这套体系
 
-可以把它理解成这棵树：
+如果只看当前正式体系，可以把它理解成这棵树：
 
 - 说明文档体系
-  - 正式模板层：`docs/templates/`
+  - `spec-charter.md`
+  - `spec-epic.md`
+  - 普通 `spec`
     - `spec-feature.md`
     - `spec-bugfix.md`
     - `spec-infra.md`
     - `spec-generic.md`
-    - `spec-epic.md`
-    - `spec-charter.md`
-  - 执行模板层：`tasks/`
-    - `SPEC-TEMPLATE-CODE.md`
-    - `SPEC-TEMPLATE-LITE.md`
-    - `SPEC-TEMPLATE-OVERVIEW.md`
-    - `SPEC-TEMPLATE.md`
 
-最核心的关系不是“谁包含谁”，而是两条不同的分类维度：
-- `docs/templates/` 按**说明文档的语义类型**分类
-- `tasks/` 按**任务执行方式和复杂度**分类
-
-所以它们是**交叉映射关系**，不是一一对应关系。
+也就是说，当前真正需要用的关系是：
+- 先看纵向层级：`charter → epic → spec`
+- 再看普通 `spec` 的横向分类：`feature / bugfix / infra / generic`
 
 ---
 
@@ -192,146 +183,40 @@
 
 ---
 
-## 三、`tasks/SPEC-TEMPLATE*.md` 这层：执行模板层
+## 三、当前关系的核心结论
 
-这层更像旧体系，或者说“更偏实际派工”的体系。
+### 1) `charter → epic → spec` 是纵向层级
 
-它不是按说明文档语义类型分，而是按执行形态分。
+这条层级是当前体系里最关键的主线：
 
-### 1) `SPEC-TEMPLATE-CODE.md`
-
-用途：代码任务完整模板。
-
-特点：
-- 有目标
-- 有现状分析
-- 有范围
-- 有场景覆盖
-- 有验收标准
-- 有测试计划
-- 有影响分析
-- 有回滚方案
-
-本质上它是**面向代码交付**的重型模板。
-
-它和 `docs/templates` 的关系：
-- 大致相当于把 `feature` / `bugfix` / 部分 `infra` 的共同结构揉成一个“代码任务总模板”
-- 它按“代码任务”来分，而不是按“功能/修复/基础设施”来分
-
-所以它是**横切模板**，不是语义专用模板。
+- `charter`：定方向、边界、原则
+- `epic`：把大主题拆成多个执行项
+- `spec`：落单个可执行改动
 
 ---
 
-### 2) `SPEC-TEMPLATE-LITE.md`
+### 2) 普通 `spec` 再横向分成四类
 
-用途：内容、研究、运维等非代码任务模板。
-
-特点：
-- 结构更轻
-- 没有那么重的测试表格
-- 仍然保留目标、范围、场景、验收标准
-
-它和 `docs/templates` 的关系：
-- 大致覆盖 `generic` 和一部分 `infra`
-- 更像“非代码任务统一模板”
-
-也就是说，它不是“某一种 spec 类型”，而是“某一类工作形态”的模板。
+- `feature`：新功能
+- `bugfix`：修问题
+- `infra`：基础设施 / 配置 / 流程 / 治理
+- `generic`：通用兜底
 
 ---
 
-### 3) `SPEC-TEMPLATE-OVERVIEW.md`
+### 3) 旧 `tasks` 模板现在还要不要用？
 
-用途：大任务拆分总览模板。
+对外公开场景下，**不需要**。
 
-这个和 `spec-epic.md` 的关系最接近。
+它们属于历史执行模板，主要价值只在于解释这套体系是怎么演进过来的；但对今天要选模板的人来说，继续强调它们只会增加理解成本。
 
-共同点：
-- 都是拆分容器
-- 都列子项
-- 都定义整体完成条件
-
-差别：
-- `spec-epic.md` 更正式，纳入 frontmatter 和治理字段
-- `SPEC-TEMPLATE-OVERVIEW.md` 更偏任务管理视角
-
-所以它基本可以看成：
-- **旧执行体系里的 epic 对应物**
+所以当前公开口径是：
+- 直接用 `docs/templates/`
+- 不再把 `tasks/SPEC-TEMPLATE*.md` 作为推荐入口
 
 ---
 
-### 4) `SPEC-TEMPLATE.md`
-
-用途：模板选择说明页，不是单独一种说明文档模板。
-
-它更像目录：
-- 代码任务 → `SPEC-TEMPLATE-CODE.md`
-- 非代码 → `SPEC-TEMPLATE-LITE.md`
-- 大任务拆分 → `SPEC-TEMPLATE-OVERVIEW.md`
-
-所以它和其他模板的关系不是并列，而是**导航页 / 分发表**。
-
----
-
-## 四、两层模板之间到底是什么关系
-
-### 关系 1：不是替代关系，而是演进关系
-
-更准确地说：
-- `tasks/SPEC-TEMPLATE*.md` 是“按执行形态分类”的旧工作流模板
-- `docs/templates/*.md` 是“按说明文档语义分类”的新工作流模板
-
-新体系更细、更标准，也更适合做治理、审查、自动检查。
-
----
-
-### 关系 2：不是一一映射，而是多对多映射
-
-大致可以这样对应：
-
-- `SPEC-TEMPLATE-CODE.md`
-  - 对应 `spec-feature.md`
-  - 对应 `spec-bugfix.md`
-  - 也能覆盖一部分 `spec-infra.md`
-
-- `SPEC-TEMPLATE-LITE.md`
-  - 对应 `spec-generic.md`
-  - 对应一部分 `spec-infra.md`
-
-- `SPEC-TEMPLATE-OVERVIEW.md`
-  - 对应 `spec-epic.md`
-
-- `spec-charter.md`
-  - 在 `tasks/` 这套里基本没有完全对等物
-  - 它属于更新、更上层的治理抽象
-
-所以：
-- `tasks/` 那层更粗粒度
-- `docs/templates/` 那层更细粒度
-
----
-
-### 关系 3：`charter → epic → spec` 是纵向层级
-
-这条层级非常关键：
-
-- `charter`
-  - 定方向、边界、原则
-- `epic`
-  - 把大主题拆成多个执行项
-- `spec`
-  - 落单个可执行改动
-
-其中普通 `spec` 又横向分成：
-- feature
-- bugfix
-- infra
-- generic
-
-这才是完整关系图。
-
----
-
-## 五、最实用的人话判断法
+## 四、最实用的人话判断法
 
 如果你只是想快速选，不想看一堆概念，直接用这个：
 
@@ -348,49 +233,26 @@
     - 改底座/治理/配置/流程 → `spec-infra.md`
     - 分不清 → `spec-generic.md`
 
-如果你还在沿用旧任务模板体系：
-- 代码任务 → `tasks/SPEC-TEMPLATE-CODE.md`
-- 非代码任务 → `tasks/SPEC-TEMPLATE-LITE.md`
-- 大任务拆分 → `tasks/SPEC-TEMPLATE-OVERVIEW.md`
-
 ---
 
-## 六、结论
+## 五、结论
 
 一句话收口：
 
-- `docs/templates/` 这套是**按说明文档语义类型分类的正式体系**。
-- `tasks/SPEC-TEMPLATE*.md` 这套是**按任务执行形态分类的旧/执行导向体系**。
-- 在正式层级上，最完整的关系是：`charter → epic → spec`。
-- 在普通 `spec` 层内部，再横向分成：`feature / bugfix / infra / generic`。
-
-所以“各种 spec 之间的关系”不是一坨平铺模板，而是：
-- 先有纵向层级
-- 再有横向分类
-- `tasks/` 那套则是另一种历史兼容视角
+- 当前真正需要用的，就是 `docs/templates/` 这套正式模板体系。
+- 这套体系先按纵向层级组织：`charter → epic → spec`。
+- 普通 `spec` 再按横向语义分类：`feature / bugfix / infra / generic`。
+- 旧 `tasks` 模板不再是当前公开口径的一部分。
 
 ---
 
 ## GitHub 链接
 
-### 仓库
-- <https://github.com/MuduiClaw/clawd-workspace>
-
-### 正式模板层：`docs/templates/`
-- <https://github.com/MuduiClaw/clawd-workspace/tree/main/docs/templates>
-- <https://github.com/MuduiClaw/clawd-workspace/blob/main/docs/templates/spec-feature.md>
-- <https://github.com/MuduiClaw/clawd-workspace/blob/main/docs/templates/spec-bugfix.md>
-- <https://github.com/MuduiClaw/clawd-workspace/blob/main/docs/templates/spec-infra.md>
-- <https://github.com/MuduiClaw/clawd-workspace/blob/main/docs/templates/spec-generic.md>
-- <https://github.com/MuduiClaw/clawd-workspace/blob/main/docs/templates/spec-epic.md>
-- <https://github.com/MuduiClaw/clawd-workspace/blob/main/docs/templates/spec-charter.md>
-
-### 执行模板层：`tasks/`
-- <https://github.com/MuduiClaw/clawd-workspace/tree/main/tasks>
-- <https://github.com/MuduiClaw/clawd-workspace/blob/main/tasks/SPEC-TEMPLATE.md>
-- <https://github.com/MuduiClaw/clawd-workspace/blob/main/tasks/SPEC-TEMPLATE-CODE.md>
-- <https://github.com/MuduiClaw/clawd-workspace/blob/main/tasks/SPEC-TEMPLATE-LITE.md>
-- <https://github.com/MuduiClaw/clawd-workspace/blob/main/tasks/SPEC-TEMPLATE-OVERVIEW.md>
-
-### 本报告文件
-- 本地路径：`docs/spec-templates-relationship-report.md`
+- 仓库：<https://github.com/MuduiClaw/spec-templates>
+- 正式模板目录：<https://github.com/MuduiClaw/spec-templates/tree/main/docs/templates>
+- `spec-charter.md`：<https://github.com/MuduiClaw/spec-templates/blob/main/docs/templates/spec-charter.md>
+- `spec-epic.md`：<https://github.com/MuduiClaw/spec-templates/blob/main/docs/templates/spec-epic.md>
+- `spec-feature.md`：<https://github.com/MuduiClaw/spec-templates/blob/main/docs/templates/spec-feature.md>
+- `spec-bugfix.md`：<https://github.com/MuduiClaw/spec-templates/blob/main/docs/templates/spec-bugfix.md>
+- `spec-infra.md`：<https://github.com/MuduiClaw/spec-templates/blob/main/docs/templates/spec-infra.md>
+- `spec-generic.md`：<https://github.com/MuduiClaw/spec-templates/blob/main/docs/templates/spec-generic.md>
